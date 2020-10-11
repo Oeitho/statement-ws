@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+    ws:
+        build:
+            context: .
+            dockerfile: src/main/docker/Dockerfile.jvm
+        ports:
+            - "8080:8080"
+        depends_on:
+            - postgres
+        entrypoint: /bin/sh -c "echo 'sleep for 3 seconds' && sleep 3s && /deployments/run-java.sh"
+    postgres:
+        image: postgres:12.4-alpine
+        environment:
+            POSTGRES_USER: admin
+            POSTGRES_PASSWORD: admin
+            POSTGRES_DB: statements
